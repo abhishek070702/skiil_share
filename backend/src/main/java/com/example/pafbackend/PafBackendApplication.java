@@ -35,7 +35,6 @@ public class PafBackendApplication {
     @Bean
     PasswordEncoder passwordEncoder(){
         return  new BCryptPasswordEncoder();
-        
     }
 
 
