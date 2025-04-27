@@ -1,0 +1,119 @@
+.main {
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(to bottom, #e3f2fd, #bbdefb); /* Added subtle gradient background */
+  width: 100%; /* Full width since we no longer have a left menu */
+  min-height: calc(100vh - 80px); /* Account for top menu height */
+}
+
+/* Enhanced bubble animations */
+@keyframes floatUp {
+  0% {
+    bottom: -100px;
+    transform: translateX(0) scale(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.7;
+    transform: translateX(10px) scale(0.8);
+  }
+  40% {
+    transform: translateX(-10px) scale(1);
+  }
+  60% {
+    transform: translateX(5px) scale(1.1);
+  }
+  80% {
+    opacity: 0.7;
+    transform: translateX(-5px) scale(1);
+  }
+  100% {
+    bottom: 110%;
+    transform: translateX(0) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Bubble common styles with glassmorphism effect */
+.bubble {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  position: absolute;
+  bottom: -100px;
+  backdrop-filter: blur(2px);
+  box-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.8),
+    inset 0 0 5px rgba(255, 255, 255, 0.5);
+  animation: floatUp 18s infinite ease-in;
+  z-index: 1;
+}
+
+/* Bubble size, position and animation variations */
+.bubble:nth-child(1) {
+  width: 30px;
+  height: 30px;
+  left: 10%;
+  animation-delay: 0s;
+  animation-duration: 16s;
+}
+.bubble:nth-child(2) {
+  width: 50px;
+  height: 50px;
+  left: 30%;
+  animation-delay: 3s;
+  animation-duration: 20s;
+}
+.bubble:nth-child(3) {
+  width: 40px;
+  height: 40px;
+  left: 60%;
+  animation-delay: 1s;
+  animation-duration: 18s;
+}
+.bubble:nth-child(4) {
+  width: 60px;
+  height: 60px;
+  left: 80%;
+  animation-delay: 4s;
+  animation-duration: 22s;
+}
+.bubble:nth-child(5) {
+  width: 25px;
+  height: 25px;
+  left: 50%;
+  animation-delay: 2s;
+  animation-duration: 15s;
+}
+.bubble:nth-child(6) {
+  width: 45px;
+  height: 45px;
+  left: 20%;
+  animation-delay: 5s;
+  animation-duration: 19s;
+}
+
+/* Bubble hover effects */
+.bubble:hover {
+  opacity: 0.9;
+  transform: scale(1.2);
+  transition: all 0.3s ease;
+}
+
+/* Subtle pulse effect */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.bubble::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  width: 30%;
+  height: 30%;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: pulse 3s infinite ease-in-out;
+}
