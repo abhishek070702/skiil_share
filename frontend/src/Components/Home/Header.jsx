@@ -1,77 +1,192 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiArrowRight, FiBook, FiUsers, FiAward, FiTrendingUp } from "react-icons/fi";
+
+// Components
 import AuthModal from "../Modals/AuthModal";
+
+// Services
 import AuthService from "../../Services/AuthService";
 
+// Styling
+import "../../Styles/Header.css";
+
 const Header = () => {
-  const navigate = useNavigate();
-  const [isAuthModalOpened, setIsAuthModalOpened] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [activeFeature, setActiveFeature] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is logged in
-    const checkLoginStatus = () => {
-      const isAuthenticated = AuthService.isAuthenticated();
-      setIsLoggedIn(isAuthenticated);
+    const checkAuthStatus = () => {
+      setIsLoggedIn(AuthService.isAuthenticated());
     };
 
-    // Check on component mount
-    checkLoginStatus();
+    checkAuthStatus();
 
-    // Add event listener to detect localStorage changes
-    window.addEventListener('storage', checkLoginStatus);
-
-    // Also check every time the component is focused
-    window.addEventListener('focus', checkLoginStatus);
+    window.addEventListener("storage", checkAuthStatus);
+    window.addEventListener("focus", checkAuthStatus);
 
     return () => {
-      window.removeEventListener('storage', checkLoginStatus);
-      window.removeEventListener('focus', checkLoginStatus);
+      window.removeEventListener("storage", checkAuthStatus);
+      window.removeEventListener("focus", checkAuthStatus);
     };
   }, []);
 
-  const authButtonClicked = () => {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveFeature((prev) => (prev + 1) % 4);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleAuthButtonClick = () => {
     if (isLoggedIn) {
-      navigate("/community"); // Navigate to community if logged in
+      navigate("/community");
     } else {
-      setIsAuthModalOpened(true); // Open the login modal if not logged in
+      setIsAuthModalOpen(true);
     }
   };
 
   const handleAuthSuccess = () => {
-    setIsAuthModalOpened(false);
-    setIsLoggedIn(true); // Set logged in state to true after successful login
-    navigate("/"); // Redirect to /community
+    setIsLoggedIn(true);
+    setIsAuthModalOpen(false);
+    navigate("/");
   };
 
+  const features = [
+    {
+      icon: <FiBook />,
+      title: "Personalized Learning",
+      description: "AI-powered skill plans tailored to your goals"
+    },
+    {
+      icon: <FiUsers />,
+      title: "Community Learning",
+      description: "Connect with peers and share your progress"
+    },
+    {
+      icon: <FiAward />,
+      title: "Track Progress",
+      description: "Monitor your achievements and growth"
+    },
+    {
+      icon: <FiTrendingUp />,
+      title: "Continuous Growth",
+      description: "Adaptive learning paths that evolve with you"
+    }
+  ];
+
   return (
-    <header className={`header ${isLoggedIn ? 'header--logged-in' : ''}`}>
-      <Navbar />
-      <div className="section__container">
-        <div className="header__container">
-          <div className="header__content">
-            <h1>UNLOCK YOUR POTENTIAL</h1>
-            <h2>LEARN. SHARE. GROW.</h2>
-            <p>
-              Join our community of learners and experts. Share your skills and 
-              learn from others, and build your professional network.
-            </p>
-            <div className="header__btn">
-              <button className="btn btn__primary" onClick={authButtonClicked}>
-                {isLoggedIn ? "Go to Community" : "GET STARTED"}
-              </button>
-            </div>
-          </div>
-        </div>
+    <header className="header">
+      {/* Animated background elements */}
+      <div className="header-background">
+        <div className="gradient-orb orb-1"></div>
+        <div className="gradient-orb orb-2"></div>
+        <div className="gradient-orb orb-3"></div>
+        <div className="grid-overlay"></div>
       </div>
-      
+
+      <section className="section__container">
+        <div className="header__content">
+          <motion.div 
+            className="header-text-content"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <motion.h1 
+              className="header__title"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              Master New Skills
+            </motion.h1>
+            
+            <motion.h2 
+              className="header__subtitle"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            >
+              Your Journey to Excellence Starts Here
+            </motion.h2>
+            
+            <motion.p 
+              className="header__description"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            >
+              Create personalized skill plans, track your progress, and join a community of learners. 
+              Our AI-powered platform adapts to your learning style and helps you achieve your goals faster.
+            </motion.p>
+
+            <motion.div 
+              className="header__cta"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+            >
+              <motion.button 
+                className="cta-button"
+                onClick={handleAuthButtonClick}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {isLoggedIn ? "Go to Dashboard" : "Get Started"}
+                <FiArrowRight className="arrow-icon" />
+              </motion.button>
+            </motion.div>
+          </motion.div>
+
+          <motion.div 
+            className="features-showcase"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <div className="features-container">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeFeature}
+                  className="feature-card"
+                  initial={{ opacity: 0, rotateY: 90 }}
+                  animate={{ opacity: 1, rotateY: 0 }}
+                  exit={{ opacity: 0, rotateY: -90 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                >
+                  <div className="feature-icon-wrapper">
+                    {features[activeFeature].icon}
+                  </div>
+                  <h3 className="feature-title">{features[activeFeature].title}</h3>
+                  <p className="feature-description">{features[activeFeature].description}</p>
+                </motion.div>
+              </AnimatePresence>
+              
+              <div className="feature-indicators">
+                {features.map((_, index) => (
+                  <motion.div
+                    key={index}
+                    className={`feature-indicator ${index === activeFeature ? 'active' : ''}`}
+                    onClick={() => setActiveFeature(index)}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       <AuthModal
-        onClose={() => {
-          setIsAuthModalOpened(false);
-        }}
-        onSuccess={handleAuthSuccess} // Pass success handler to AuthModal
-        isOpen={isAuthModalOpened}
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onSuccess={handleAuthSuccess}
       />
     </header>
   );

@@ -1,69 +1,68 @@
 /* CreateSkillPlanBox.css */
 .skill-plan-box {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-    padding: 16px;
-    margin-bottom: 20px;
-    transition: all 0.2s ease;
-    border-left: 4px solid #1890ff;
-    cursor: pointer;
+  background: linear-gradient(to right bottom, #ffffff, #fafafa);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
+
+.skill-plan-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  border-color: rgba(24, 144, 255, 0.1);
+}
+
+.skill-plan-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, #1890ff, #52c41a);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.skill-plan-box:hover::before {
+  opacity: 1;
+}
+
+.skill-plan-box input {
+  background: #f5f5f5;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #262626;
+  transition: all 0.3s ease;
+}
+
+.skill-plan-box input:hover {
+  background: #fafafa;
+  border-color: #d9d9d9;
+}
+
+.skill-plan-box input:focus {
+  background: #ffffff;
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .skill-plan-box {
+    margin-bottom: 16px;
+    border-radius: 12px;
   }
-  
-  .skill-plan-box:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
-  }
-  
-  .post_top {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  .user-image {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .skill-input {
-    flex: 1;
+
+  .skill-plan-box input {
     padding: 10px 14px;
-    border: 1px solid #e8e8e8;
-    border-radius: 20px;
-    background-color: #f5f5f5;
-    color: #595959;
-    font-size: 14px;
-    outline: none;
-    transition: all 0.3s ease;
+    font-size: 13px;
   }
-  
-  .skill-input:focus, 
-  .skill-input:hover {
-    background-color: #fff;
-    border-color: #d9d9d9;
-    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
-  }
-  
-  .skill-input::placeholder {
-    color: #8c8c8c;
-  }
-  
-  /* For smaller screens */
-  @media (max-width: 576px) {
-    .skill-plan-box {
-      padding: 12px;
-    }
-    
-    .user-image {
-      width: 32px;
-      height: 32px;
-    }
-    
-    .skill-input {
-      padding: 8px 12px;
-      font-size: 13px;
-    }
-  }
+}
